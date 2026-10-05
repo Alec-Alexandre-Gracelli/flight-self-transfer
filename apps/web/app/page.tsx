@@ -44,11 +44,14 @@ function formatConnection(minutes: number) {
   return `${hours}h ${remainingMinutes}m`;
 }
 
-function formatTime(date: string) {
-  return new Intl.DateTimeFormat("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(new Date(date));
+function formatLocalTime(date: string) {
+  const match = date.match(/T(\d{2}):(\d{2})/);
+
+  if (!match) {
+    return date;
+  }
+
+  return `${match[1]}:${match[2]}`;
 }
 
 export default function Home() {
@@ -377,7 +380,7 @@ export default function Home() {
 
                             <p className="mt-1 text-sm text-slate-600">
                               {route.firstLeg.origin}{" "}
-                              {formatTime(
+                              {formatLocalTime(
                                 route.firstLeg.departureAt
                               )}{" "}
                               →{" "}
@@ -385,7 +388,7 @@ export default function Home() {
                                 route.firstLeg
                                   .destination
                               }{" "}
-                              {formatTime(
+                              {formatLocalTime(
                                 route.firstLeg.arrivalAt
                               )}
                             </p>
@@ -408,7 +411,7 @@ export default function Home() {
 
                             <p className="mt-1 text-sm text-slate-600">
                               {route.secondLeg.origin}{" "}
-                              {formatTime(
+                              {formatLocalTime(
                                 route.secondLeg.departureAt
                               )}{" "}
                               →{" "}
@@ -416,7 +419,7 @@ export default function Home() {
                                 route.secondLeg
                                   .destination
                               }{" "}
-                              {formatTime(
+                              {formatLocalTime(
                                 route.secondLeg.arrivalAt
                               )}
                             </p>
